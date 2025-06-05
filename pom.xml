@@ -3,17 +3,24 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <description>The 'Learn Hibernate and JPA' Course: Introduction to Hibernate and JPA</description>
-    <name>introduction-to-hibernate-and-jpa</name>
+    <description>The 'Learn Hibernate and JPA' Course: Mappings</description>
+    <name>mappings</name>
 
     <groupId>com.baeldung</groupId>
-    <artifactId>lhj-introduction-to-hibernate-and-jpa</artifactId>
+    <artifactId>lhj-mappings</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>the-project-overview</module>
-        <module>setting-up-hibernate-and-jpa-start</module>
-        <module>setting-up-hibernate-and-jpa-end</module>
+        <module>entity-mappings-start</module>
+        <module>entity-mappings-end</module>
+        <module>mapping-relationships-start</module>
+        <module>mapping-relationships-end</module>
+        <module>advanced-id-mapping-start</module>
+        <module>advanced-id-mapping-end</module>
+        <module>mapping-enum-date-start</module>
+        <module>mapping-enum-date-end</module>
+        <module>inheritance-mapping-introduction-end</module>
+        <module>inheritance-mapping-introduction-start</module>
     </modules>
 </project>
