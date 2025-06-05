@@ -1,3 +1,3 @@
-# Learn Hibernate and JPA - Mappings
+# Learn Hibernate and JPA - Core Hibernate and JPA Concepts
 
-This is the codebase for Module "Mappings" of Learn Hibernate and JPA.
+This is the codebase for Module "Core Hibernate and JPA Concepts" of Learn Hibernate and JPA.

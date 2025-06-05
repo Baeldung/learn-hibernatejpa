@@ -1,0 +1,52 @@
+package com.baeldung.lhj.persistence.repository.impl;
+
+import com.baeldung.lhj.persistence.model.Worker;
+import com.baeldung.lhj.persistence.repository.WorkerRepository;
+
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Random;
+import java.util.Set;
+
+public class DefaultWorkerRepository implements WorkerRepository {
+
+    private Set<Worker> workers;
+
+    public DefaultWorkerRepository() {
+        super();
+        this.workers = new HashSet<>();
+    }
+
+    @Override
+    public Optional<Worker> findById(Long id) {
+        return workers.stream()
+            .filter(p -> p.getId().equals(id))
+            .findFirst();
+    }
+
+    @Override
+    public Worker save(Worker worker) {
+        Long workerId = worker.getId();
+        if (workerId == null) {
+            worker.setId(new Random().nextLong(Long.MAX_VALUE));
+        } else {
+            findById(workerId).ifPresent(workers::remove);
+        }
+        workers.add(worker);
+        return worker;
+    }
+
+    @Override
+    public void update(Long id, Worker worker) {
+        deleteById(id);
+        worker.setId(id);
+        workers.add(worker);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Worker existingWorker = findById(id).orElseThrow(IllegalArgumentException::new);
+        workers.remove(existingWorker);
+    }
+
+}
