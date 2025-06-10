@@ -21,7 +21,7 @@ public class DefaultCampaignRepositoryUnitTest {
         Campaign retrievedCampaign = campaignRepository.findById(existingCampaign.getId()).get();
 
         // then
-        Assertions.assertEquals(existingCampaign, retrievedCampaign);
+        Assertions.assertEquals(existingCampaign,  retrievedCampaign);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class DefaultCampaignRepositoryUnitTest {
         Optional<Campaign> retrievedCampaign = campaignRepository.findById(99L);
 
         // then
-        Assertions.assertTrue(retrievedCampaign.isEmpty());
+        Assertions.assertTrue( retrievedCampaign.isEmpty() );
     }
 
     @Test
