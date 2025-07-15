@@ -12,5 +12,9 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>basic-caching-mechanisms-start</module>
+        <module>basic-caching-mechanisms-end</module>
+        <module>lazy-vs-eager-fetching-start</module>
+        <module>lazy-vs-eager-fetching-end</module>
     </modules>
 </project>

@@ -1,0 +1,37 @@
+package com.baeldung.lhj.persistence.repository.impl;
+
+import com.baeldung.lhj.persistence.model.Worker;
+import com.baeldung.lhj.persistence.repository.WorkerRepository;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class DefaultWorkerRepositoryUnitTest {
+    WorkerRepository workerRepository = new DefaultWorkerRepository();
+
+    @Test
+    public void givenExistingWorker_whenFindById_thenWorkerRetrieved() {
+        // given
+        Worker existingWorker = new Worker("johnTest1@test.com", "John", "Doe");
+        workerRepository.save(existingWorker);
+
+        // when
+        Worker retrievedWorker = workerRepository.findById(existingWorker.getId());
+
+        // then
+        Assertions.assertEquals(existingWorker, retrievedWorker);
+    }
+
+    @Test
+    public void givenExistingWorker_whenFindByNonExistingId_thenNoWorkerRetrieved() {
+        // given
+        Worker existingWorker = new Worker("johnTest2@test.com", "John", "Doe");
+        workerRepository.save(existingWorker);
+
+        // when
+        Worker retrievedWorker = workerRepository.findById(99L);
+
+        // then
+        Assertions.assertNull(retrievedWorker);
+    }
+
+}
