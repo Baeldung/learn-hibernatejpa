@@ -14,6 +14,8 @@
     <modules>
         <module>basic-crud-operations-start</module>
         <module>basic-crud-operations-end</module>
+        <module>criteria-api-start</module>
+        <module>criteria-api-end</module>
         <module>jpql-end</module>
         <module>jpql-start</module>
     </modules>

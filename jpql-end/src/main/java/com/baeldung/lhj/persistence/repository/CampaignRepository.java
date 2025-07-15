@@ -14,4 +14,5 @@ public interface CampaignRepository {
 
     Optional<Campaign> findByCodeAndName(String code, String name);
 
+    int deleteCampaignsWithoutTasks();
 }

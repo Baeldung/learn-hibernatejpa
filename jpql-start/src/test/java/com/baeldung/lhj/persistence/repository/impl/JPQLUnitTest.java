@@ -1,5 +1,6 @@
 package com.baeldung.lhj.persistence.repository.impl;
 
+import com.baeldung.lhj.extension.CloseResourcesExtension;
 import com.baeldung.lhj.persistence.model.Campaign;
 import com.baeldung.lhj.persistence.model.Task;
 import com.baeldung.lhj.persistence.model.TaskStatus;
@@ -11,12 +12,14 @@ import com.baeldung.lhj.persistence.repository.WorkerRepository;
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-public class JPQLJUnitTest {
+@ExtendWith(CloseResourcesExtension.class)
+class JPQLUnitTest {
 
-    public static CampaignRepository campaignRepository;  
-    public static TaskRepository taskRepository; 
-    public static WorkerRepository workerRepository;  
+    static CampaignRepository campaignRepository = new DefaultCampaignRepository();
+    static TaskRepository taskRepository = new DefaultTaskRepository();
+    static WorkerRepository workerRepository = new DefaultWorkerRepository();
 
     @BeforeAll
     static void setup() {
@@ -24,18 +27,14 @@ public class JPQLJUnitTest {
     }
 
     static void createTestData(){
-        // create repos and test data
-        campaignRepository = new DefaultCampaignRepository();
         Campaign newCampaign = new Campaign("C1", "Campaign 1", "Campaign 1 Description");
         campaignRepository.save(newCampaign);        
         Campaign newCampaign2 = new Campaign("C2", "Campaign 2", "Campaign 2 Description");
         campaignRepository.save(newCampaign2);
 
-        workerRepository = new DefaultWorkerRepository();
         Worker newWorker = new Worker("john@test.com", "John", "Doe");
         workerRepository.save(newWorker);
 
-        taskRepository = new DefaultTaskRepository();
         Task newTask = new Task("Task 1", "Task 1 Description", LocalDate.now(), newCampaign, TaskStatus.TO_DO, newWorker);
         taskRepository.save(newTask);
       
