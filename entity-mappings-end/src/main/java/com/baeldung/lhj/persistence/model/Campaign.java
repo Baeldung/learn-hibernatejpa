@@ -1,8 +1,6 @@
 package com.baeldung.lhj.persistence.model;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,8 +26,6 @@ public class Campaign {
 
     @Column(name = "description")
     private String description;
-
-    private Set<Task> tasks = new HashSet<>();
 
     public Campaign(String code, String name, String description) {
         this.code = code;
@@ -70,14 +66,6 @@ public class Campaign {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Set<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(Set<Task> tasks) {
-        this.tasks = tasks;
     }
 
     @Override

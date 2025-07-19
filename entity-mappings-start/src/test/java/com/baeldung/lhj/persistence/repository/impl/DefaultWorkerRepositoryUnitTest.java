@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-public class DefaultWorkerRepositoryUnitTest {
+class DefaultWorkerRepositoryUnitTest {
     WorkerRepository workerRepository = new DefaultWorkerRepository();
 
     @Test
-    public void givenExistingWorker_whenFindById_thenWorkerRetrieved() {
+    void givenExistingWorker_whenFindById_thenWorkerRetrieved() {
         // given
         Worker existingWorker = new Worker("johnTest1@test.com", "John", "Doe");
         workerRepository.save(existingWorker);
@@ -24,7 +24,7 @@ public class DefaultWorkerRepositoryUnitTest {
     }
 
     @Test
-    public void givenExistingWorker_whenFindByNonExistingId_thenNoWorkerRetrieved() {
+    void givenExistingWorker_whenFindByNonExistingId_thenNoWorkerRetrieved() {
         // given
         Worker existingWorker = new Worker("johnTest2@test.com", "John", "Doe");
         workerRepository.save(existingWorker);

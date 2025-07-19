@@ -3,8 +3,8 @@ package com.baeldung.lhj.persistence.repository.impl;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.baeldung.lhj.persistence.model.Campaign;
 import com.baeldung.lhj.persistence.repository.CampaignRepository;
@@ -16,7 +16,6 @@ public class DefaultCampaignRepository implements CampaignRepository {
     private Set<Campaign> campaigns;
 
     public DefaultCampaignRepository() {
-        super();
         this.campaigns = new HashSet<>();
     }
 
@@ -31,7 +30,7 @@ public class DefaultCampaignRepository implements CampaignRepository {
     public Campaign save(Campaign campaign) {
         Long campaignId = campaign.getId();
         if (campaignId == null) {
-            campaign.setId(new Random().nextLong(Long.MAX_VALUE));
+            campaign.setId(ThreadLocalRandom.current().nextLong(Long.MAX_VALUE));
         } else {
             findById(campaignId).ifPresent(campaigns::remove);
         }

@@ -19,8 +19,7 @@ public class Task {
     private Long id;
 
     @Column(name = "uuid", unique = true, nullable = false, updatable = false)
-    private final String uuid = UUID.randomUUID()
-        .toString();
+    private final String uuid = UUID.randomUUID().toString();
 
     @Column(name = "name")
     private String name;

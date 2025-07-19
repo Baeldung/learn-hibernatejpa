@@ -11,12 +11,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class DefaultTaskRepositoryUnitTest {
+class DefaultTaskRepositoryUnitTest {
     CampaignRepository campaignRepository = new DefaultCampaignRepository();
     TaskRepository taskRepository = new DefaultTaskRepository();
 
     @Test
-    public void givenExistingTask_whenFindById_thenTaskRetrieved() {
+    void givenExistingTask_whenFindById_thenTaskRetrieved() {
         // given
         Task existingTask = new Task("Task 1", "Task 1 Description", LocalDate.now(), TaskStatus.TO_DO);
         taskRepository.save(existingTask);
@@ -29,7 +29,7 @@ public class DefaultTaskRepositoryUnitTest {
     }
 
     @Test
-    public void givenExistingTask_whenFindByNonExistingId_thenNoTaskRetrieved() {
+    void givenExistingTask_whenFindByNonExistingId_thenNoTaskRetrieved() {
         // given
         Task existingTask = new Task("Task 2", "Task 2 Description", LocalDate.now(), TaskStatus.TO_DO);
         taskRepository.save(existingTask);
@@ -42,7 +42,7 @@ public class DefaultTaskRepositoryUnitTest {
     }
 
     @Test
-    public void givenExistingTask_whenFindAllTasks_thenNonEmptyListRetrieved() {
+    void givenExistingTask_whenFindAllTasks_thenNonEmptyListRetrieved() {
         // given
         Task task3 = new Task("Task 3", "Task 3 Description", LocalDate.now(), TaskStatus.TO_DO);
         taskRepository.save(task3);

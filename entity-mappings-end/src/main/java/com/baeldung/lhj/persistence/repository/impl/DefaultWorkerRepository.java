@@ -5,15 +5,14 @@ import com.baeldung.lhj.persistence.repository.WorkerRepository;
 
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class DefaultWorkerRepository implements WorkerRepository {
 
     private Set<Worker> workers;
 
     public DefaultWorkerRepository() {
-        super();
         this.workers = new HashSet<>();
     }
 
@@ -28,7 +27,7 @@ public class DefaultWorkerRepository implements WorkerRepository {
     public Worker save(Worker worker) {
         Long workerId = worker.getId();
         if (workerId == null) {
-            worker.setId(new Random().nextLong(Long.MAX_VALUE));
+            worker.setId(ThreadLocalRandom.current().nextLong(Long.MAX_VALUE));
         } else {
             findById(workerId).ifPresent(workers::remove);
         }

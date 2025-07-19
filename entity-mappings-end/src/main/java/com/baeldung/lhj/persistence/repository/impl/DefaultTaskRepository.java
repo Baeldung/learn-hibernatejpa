@@ -3,8 +3,8 @@ package com.baeldung.lhj.persistence.repository.impl;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.baeldung.lhj.persistence.model.Task;
 import com.baeldung.lhj.persistence.repository.TaskRepository;
@@ -16,7 +16,6 @@ public class DefaultTaskRepository implements TaskRepository {
     private Set<Task> tasks;
 
     public DefaultTaskRepository() {
-        super();
         this.tasks = new HashSet<>();
     }
 
@@ -31,7 +30,7 @@ public class DefaultTaskRepository implements TaskRepository {
     public Task save(Task task) {
         Long taskId = task.getId();
         if (taskId == null) {
-            task.setId(new Random().nextLong(Long.MAX_VALUE));
+            task.setId(ThreadLocalRandom.current().nextLong(Long.MAX_VALUE));
         } else {
             findById(taskId).ifPresent(tasks::remove);
         }

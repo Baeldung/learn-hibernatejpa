@@ -4,9 +4,9 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- Define the classes -->
-        <class>com.baeldung.lhj.domain.model.Campaign</class>
-        <class>com.baeldung.lhj.domain.model.Task</class>
-        <class>com.baeldung.lhj.domain.model.Worker</class>
+        <class>com.baeldung.lhj.persistence.model.Campaign</class>
+        <class>com.baeldung.lhj.persistence.model.Task</class>
+        <class>com.baeldung.lhj.persistence.model.Worker</class>
 
         <properties>
             <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
