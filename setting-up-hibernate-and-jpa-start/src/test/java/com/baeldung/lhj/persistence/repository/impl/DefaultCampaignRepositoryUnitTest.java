@@ -15,13 +15,13 @@ public class DefaultCampaignRepositoryUnitTest {
     void givenExistingCampaign_whenFindById_thenCampaignRetrieved() {
         // given
         Campaign existingCampaign = new Campaign("C-1", "Campaign 1", "Campaign 1 Description");
-        campaignRepository.save( existingCampaign );
+        campaignRepository.save(existingCampaign);
 
         // when
         Campaign retrievedCampaign = campaignRepository.findById(existingCampaign.getId()).get();
 
         // then
-        Assertions.assertEquals(existingCampaign,  retrievedCampaign);
+        Assertions.assertEquals(existingCampaign, retrievedCampaign);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class DefaultCampaignRepositoryUnitTest {
         Optional<Campaign> retrievedCampaign = campaignRepository.findById(99L);
 
         // then
-        Assertions.assertTrue( retrievedCampaign.isEmpty() );
+        Assertions.assertTrue(retrievedCampaign.isEmpty());
     }
 
     @Test
