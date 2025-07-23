@@ -22,5 +22,7 @@
         <module>mapping-enum-date-end</module>
         <module>inheritance-mapping-introduction-end</module>
         <module>inheritance-mapping-introduction-start</module>
+        <module>inheritance-mapping-advanced-end</module>
+        <module>inheritance-mapping-advanced-start</module>
     </modules>
 </project>
