@@ -12,6 +12,8 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>basics-of-transactions-start</module>
+        <module>basics-of-transactions-end</module>
         <module>basic-caching-mechanisms-start</module>
         <module>basic-caching-mechanisms-end</module>
         <module>lazy-vs-eager-fetching-start</module>
