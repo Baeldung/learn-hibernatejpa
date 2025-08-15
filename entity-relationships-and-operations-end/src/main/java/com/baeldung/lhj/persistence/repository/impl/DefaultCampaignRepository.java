@@ -1,47 +1,33 @@
 package com.baeldung.lhj.persistence.repository.impl;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
 
 import com.baeldung.lhj.persistence.model.Campaign;
 import com.baeldung.lhj.persistence.repository.CampaignRepository;
+import com.baeldung.lhj.persistence.util.JpaUtil;
 
-import static java.util.List.copyOf;
+import jakarta.persistence.EntityManager;
 
 public class DefaultCampaignRepository implements CampaignRepository {
 
-    private Set<Campaign> campaigns;
-
     public DefaultCampaignRepository() {
-        super();
-        this.campaigns = new HashSet<>();
     }
 
     @Override
     public Optional<Campaign> findById(Long id) {
-        return campaigns.stream()
-            .filter(p -> p.getId().equals(id))
-            .findFirst();
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            Campaign retrievedCampaign = entityManager.find(Campaign.class, id);
+            return Optional.ofNullable(retrievedCampaign);
+        }
     }
 
     @Override
     public Campaign save(Campaign campaign) {
-        Long campaignId = campaign.getId();
-        if (campaignId == null) {
-            campaign.setId(new Random().nextLong(Long.MAX_VALUE));
-        } else {
-            findById(campaignId).ifPresent(campaigns::remove);
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            entityManager.getTransaction().begin();
+            entityManager.persist(campaign);
+            entityManager.getTransaction().commit();
+            return campaign;
         }
-        campaigns.add(campaign);
-        return campaign;
     }
-
-    @Override
-    public List<Campaign> findAll() {
-        return copyOf(campaigns);
-    }
-
 }

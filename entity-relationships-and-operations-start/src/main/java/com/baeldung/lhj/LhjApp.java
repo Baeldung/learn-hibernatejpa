@@ -4,29 +4,30 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.baeldung.lhj.persistence.model.Campaign;
 import com.baeldung.lhj.persistence.model.Task;
+import com.baeldung.lhj.persistence.util.JpaUtil;
 
 public class LhjApp {
 
     public static void main(final String... args) {
-        Logger logger = LoggerFactory.getLogger(LhjApp.class);
-        logger.info("Running Learn Hibernate and JPA App");
-
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("LHJ");
+        try {
+            Logger logger = LoggerFactory.getLogger(LhjApp.class);
+            logger.info("Running Learn Hibernate and JPA App");
+        } finally {
+            JpaUtil.closeEntityManagerFactory();
+        }
     }
 
     // will be used throughout the lesson
-    private static void createCampaign2WithTasks34(EntityManagerFactory emf) {
+    private static void createCampaign2WithTasks34() {
         // persist campaign, worker, and tasks
-        EntityManager entityManager = emf.createEntityManager();
+        EntityManager entityManager = JpaUtil.getEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 

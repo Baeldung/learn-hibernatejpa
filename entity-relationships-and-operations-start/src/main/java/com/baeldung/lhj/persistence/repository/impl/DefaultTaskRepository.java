@@ -1,46 +1,33 @@
 package com.baeldung.lhj.persistence.repository.impl;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
 
 import com.baeldung.lhj.persistence.model.Task;
 import com.baeldung.lhj.persistence.repository.TaskRepository;
+import com.baeldung.lhj.persistence.util.JpaUtil;
 
-import static java.util.List.copyOf;
+import jakarta.persistence.EntityManager;
 
 public class DefaultTaskRepository implements TaskRepository {
 
-    private Set<Task> tasks;
-
     public DefaultTaskRepository() {
-        super();
-        this.tasks = new HashSet<>();
     }
 
     @Override
     public Optional<Task> findById(Long id) {
-        return tasks.stream()
-            .filter(p -> p.getId().equals(id))
-            .findFirst();
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            Task retrievedTask = entityManager.find(Task.class, id);
+            return Optional.ofNullable(retrievedTask);
+        }
     }
 
     @Override
     public Task save(Task task) {
-        Long taskId = task.getId();
-        if (taskId == null) {
-            task.setId(new Random().nextLong(Long.MAX_VALUE));
-        } else {
-            findById(taskId).ifPresent(tasks::remove);
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            entityManager.getTransaction().begin();
+            entityManager.persist(task);
+            entityManager.getTransaction().commit();
+            return task;
         }
-        tasks.add(task);
-        return task;
-    }
-
-    @Override
-    public List<Task> findAll() {
-        return copyOf(tasks);
     }
 }

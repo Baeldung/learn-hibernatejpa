@@ -2,37 +2,32 @@ package com.baeldung.lhj.persistence.repository.impl;
 
 import com.baeldung.lhj.persistence.model.Worker;
 import com.baeldung.lhj.persistence.repository.WorkerRepository;
+import com.baeldung.lhj.persistence.util.JpaUtil;
 
-import java.util.HashSet;
+import jakarta.persistence.EntityManager;
+
 import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
 
 public class DefaultWorkerRepository implements WorkerRepository {
 
-    private Set<Worker> workers;
-
     public DefaultWorkerRepository() {
-        super();
-        this.workers = new HashSet<>();
     }
 
     @Override
     public Optional<Worker> findById(Long id) {
-        return workers.stream()
-            .filter(p -> p.getId().equals(id))
-            .findFirst();
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            Worker retrievedWorker = entityManager.find(Worker.class, id);
+            return Optional.ofNullable(retrievedWorker);
+        }
     }
 
     @Override
     public Worker save(Worker worker) {
-        Long workerId = worker.getId();
-        if (workerId == null) {
-            worker.setId(new Random().nextLong(Long.MAX_VALUE));
-        } else {
-            findById(workerId).ifPresent(workers::remove);
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            entityManager.getTransaction().begin();
+            entityManager.persist(worker);
+            entityManager.getTransaction().commit();
+            return worker;
         }
-        workers.add(worker);
-        return worker;
     }
 }
