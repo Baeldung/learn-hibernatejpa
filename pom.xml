@@ -20,5 +20,7 @@
         <module>entity-relationships-and-operations-end</module>
         <module>jpql-end</module>
         <module>jpql-start</module>
+        <module>entity-lifecycle-start</module>
+        <module>entity-lifecycle-end</module>
     </modules>
 </project>
