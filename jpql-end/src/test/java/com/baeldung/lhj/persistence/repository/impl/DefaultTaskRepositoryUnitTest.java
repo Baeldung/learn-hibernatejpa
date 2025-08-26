@@ -6,7 +6,6 @@ import com.baeldung.lhj.persistence.model.Task;
 import com.baeldung.lhj.persistence.model.TaskStatus;
 import com.baeldung.lhj.persistence.repository.CampaignRepository;
 import com.baeldung.lhj.persistence.repository.TaskRepository;
-import com.baeldung.lhj.persistence.repository.WorkerRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +16,6 @@ import java.util.Optional;
 @ExtendWith(CloseResourcesExtension.class)
 class DefaultTaskRepositoryUnitTest {
     CampaignRepository campaignRepository = new DefaultCampaignRepository();
-    WorkerRepository workerRepository = new DefaultWorkerRepository();
     TaskRepository taskRepository = new DefaultTaskRepository();
 
     @Test

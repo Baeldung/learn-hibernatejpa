@@ -14,12 +14,12 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @ExtendWith(CloseResourcesExtension.class)
-public class DefaultTaskRepositoryUnitTest {
+class DefaultTaskRepositoryUnitTest {
     CampaignRepository campaignRepository = new DefaultCampaignRepository();
     TaskRepository taskRepository = new DefaultTaskRepository();
 
     @Test
-    public void givenExistingTask_whenFindById_thenTaskRetrieved() {
+    void givenExistingTask_whenFindById_thenTaskRetrieved() {
         // given
         Campaign campaign = new Campaign("CTASK-1", "Campaign 1", "Campaign 1 Description");
         campaignRepository.save(campaign);
@@ -35,7 +35,7 @@ public class DefaultTaskRepositoryUnitTest {
     }
 
     @Test
-    public void givenExistingTask_whenFindByNonExistingId_thenNoTaskRetrieved() {
+    void givenExistingTask_whenFindByNonExistingId_thenNoTaskRetrieved() {
         // given
         Campaign campaign = new Campaign("CTASK-2", "Campaign 2", "Campaign 2 Description");
         campaignRepository.save(campaign);

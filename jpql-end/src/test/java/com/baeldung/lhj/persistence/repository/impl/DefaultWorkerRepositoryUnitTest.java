@@ -39,5 +39,4 @@ class DefaultWorkerRepositoryUnitTest {
         Assertions.assertTrue(retrievedWorker.isEmpty());
     }
 
-
 }

@@ -5,13 +5,15 @@ import java.util.Optional;
 
 import com.baeldung.lhj.persistence.model.Campaign;
 import com.baeldung.lhj.persistence.repository.CampaignRepository;
+import com.baeldung.lhj.persistence.util.JpaUtil;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
-public class DefaultCampaignRepository extends BaseRepository implements CampaignRepository {
+public class DefaultCampaignRepository implements CampaignRepository {
 
     public DefaultCampaignRepository() {
         super();
@@ -19,67 +21,72 @@ public class DefaultCampaignRepository extends BaseRepository implements Campaig
 
     @Override
     public Optional<Campaign> findById(Long id) {
-        EntityManager entityManager = getEntityManager();
-        Campaign retrievedCampaign = entityManager.find(Campaign.class, id);
-        return Optional.ofNullable(retrievedCampaign);
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            Campaign retrievedCampaign = entityManager.find(Campaign.class, id);
+            return Optional.ofNullable(retrievedCampaign);
+        }
     }
 
     @Override
     public Campaign save(Campaign campaign) {
-        EntityManager entityManager = getEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.persist(campaign);
-        entityManager.getTransaction().commit();
-        return campaign;
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            entityManager.getTransaction().begin();
+            entityManager.persist(campaign);
+            entityManager.getTransaction().commit();
+            return campaign;
+        }
     }
 
     @Override
     public List<Campaign> findAll() {
-        EntityManager entityManager = getEntityManager();
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
-        CriteriaQuery<Campaign> criteriaQuery = criteriaBuilder.createQuery(Campaign.class);
-        Root<Campaign> root = criteriaQuery.from(Campaign.class);
-        criteriaQuery.select(root);
+            CriteriaQuery<Campaign> criteriaQuery = criteriaBuilder.createQuery(Campaign.class);
+            Root<Campaign> root = criteriaQuery.from(Campaign.class);
+            criteriaQuery.select(root);
 
-        return entityManager
-            .createQuery(criteriaQuery)
-            .getResultList();
+            return entityManager
+                .createQuery(criteriaQuery)
+                .getResultList();
+        }
     }
 
     @Override
     public List<Campaign> findByNameOrDescriptionContaining(String text) {
-        EntityManager entityManager = getEntityManager();
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
-        CriteriaQuery<Campaign> criteriaQuery = criteriaBuilder.createQuery(Campaign.class);
-        Root<Campaign> root = criteriaQuery.from(Campaign.class);
-        criteriaQuery
-            .select(root)
-            .where(criteriaBuilder.or(
-                criteriaBuilder.like(root.get("name"), "%" + text + "%"),
-                criteriaBuilder.like(root.get("description"), "%" + text + "%")
-            ));
+            CriteriaQuery<Campaign> criteriaQuery = criteriaBuilder.createQuery(Campaign.class);
+            Root<Campaign> root = criteriaQuery.from(Campaign.class);
+            criteriaQuery
+                .select(root)
+                .where(criteriaBuilder.or(
+                    criteriaBuilder.like(root.get("name"), "%" + text + "%"),
+                    criteriaBuilder.like(root.get("description"), "%" + text + "%")
+                ));
 
-        return entityManager
-            .createQuery(criteriaQuery)
-            .getResultList();
+            return entityManager
+                .createQuery(criteriaQuery)
+                .getResultList();
+        }
     }
 
     @Override
     public int deleteCampaignsWithoutTasks() {
-        EntityManager entityManager = getEntityManager();
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaDelete<Campaign> criteriaDelete = criteriaBuilder.createCriteriaDelete(Campaign.class);
-        Root<Campaign> root = criteriaDelete.from(Campaign.class);
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaDelete<Campaign> criteriaDelete = criteriaBuilder.createCriteriaDelete(Campaign.class);
+            Root<Campaign> root = criteriaDelete.from(Campaign.class);
 
-        criteriaDelete.where(criteriaBuilder.isEmpty(root.get("tasks")));
+            criteriaDelete.where(criteriaBuilder.isEmpty(root.get("tasks")));
 
-        entityManager.getTransaction().begin();
-        int deletedCount = entityManager.createQuery(criteriaDelete).executeUpdate();
-        entityManager.getTransaction().commit();
+            entityManager.getTransaction().begin();
+            int deletedCount = entityManager.createQuery(criteriaDelete).executeUpdate();
+            entityManager.getTransaction().commit();
 
-        return deletedCount;
+            return deletedCount;
+        }
     }
 
 }

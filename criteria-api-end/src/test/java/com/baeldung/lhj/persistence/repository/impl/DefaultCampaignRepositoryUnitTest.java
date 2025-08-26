@@ -1,18 +1,21 @@
 package com.baeldung.lhj.persistence.repository.impl;
 
+import com.baeldung.lhj.extension.CloseResourcesExtension;
 import com.baeldung.lhj.persistence.model.Campaign;
 import com.baeldung.lhj.persistence.repository.CampaignRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
 import java.util.Optional;
 
-public class DefaultCampaignRepositoryUnitTest {
+@ExtendWith(CloseResourcesExtension.class)
+class DefaultCampaignRepositoryUnitTest {
     CampaignRepository campaignRepository = new DefaultCampaignRepository();
 
     @Test
-    public void givenExistingCampaign_whenFindById_thenCampaignRetrieved() {
+    void givenExistingCampaign_whenFindById_thenCampaignRetrieved() {
         // given
         Campaign existingCampaign = new Campaign("C-1", "Campaign 1", "Campaign 1 Description");
         campaignRepository.save(existingCampaign);
@@ -25,7 +28,7 @@ public class DefaultCampaignRepositoryUnitTest {
     }
 
     @Test
-    public void givenExistingCampaign_whenFindByNonExistingId_thenNoCampaignRetrieved() {
+    void givenExistingCampaign_whenFindByNonExistingId_thenNoCampaignRetrieved() {
         // given
         Campaign existingCampaign = new Campaign("C-2", "Campaign 2", "Campaign 2 Description");
         campaignRepository.save(existingCampaign);
@@ -38,7 +41,7 @@ public class DefaultCampaignRepositoryUnitTest {
     }
 
     @Test
-    public void givenExistingCampaigns_whenFindByAll_thenAllCampaignsRetrieved() {
+    void givenExistingCampaigns_whenFindByAll_thenAllCampaignsRetrieved() {
         // given
         int numberOfCampaigns = 10;
         for (int i = 0; i < numberOfCampaigns; i++) {
@@ -54,7 +57,7 @@ public class DefaultCampaignRepositoryUnitTest {
     }
 
     @Test
-    public void givenExistingCampaigns_whenFindByNameOrDescriptionContaining_thenMatchingCampaignsReturned() {
+    void givenExistingCampaigns_whenFindByNameOrDescriptionContaining_thenMatchingCampaignsReturned() {
         // given
         Campaign christmasSaleCampaign = new Campaign("C-3", "Christmas Sale Campaign", "This is not a Genetic Campaign");
         Campaign genericCampaign = new Campaign("C-4", "Generic Campaign", "This is not for Christmas");
@@ -70,7 +73,7 @@ public class DefaultCampaignRepositoryUnitTest {
     }
 
     @Test
-    public void givenCampaignsWithoutTasks_whenDeleteCampaignsWithoutTasks_thenCampaignDeleted() {
+    void givenCampaignsWithoutTasks_whenDeleteCampaignsWithoutTasks_thenCampaignDeleted() {
         // given
         Campaign existingCampaign = new Campaign("C-5", "Campaign 5", "Campaign 5 Description");
         campaignRepository.save(existingCampaign);

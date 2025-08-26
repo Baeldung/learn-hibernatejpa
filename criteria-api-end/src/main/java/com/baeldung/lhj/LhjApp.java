@@ -10,6 +10,8 @@ import com.baeldung.lhj.persistence.repository.WorkerRepository;
 import com.baeldung.lhj.persistence.repository.impl.DefaultCampaignRepository;
 import com.baeldung.lhj.persistence.repository.impl.DefaultTaskRepository;
 import com.baeldung.lhj.persistence.repository.impl.DefaultWorkerRepository;
+import com.baeldung.lhj.persistence.util.JpaUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,31 +25,35 @@ public class LhjApp {
     static WorkerRepository workerRepository = new DefaultWorkerRepository();
 
     public static void main(final String... args) {
-        Logger logger = LoggerFactory.getLogger(LhjApp.class);
-        logger.info("Running Learn Hibernate and JPA App");
+        try {
+            Logger logger = LoggerFactory.getLogger(LhjApp.class);
+            logger.info("Running Learn Hibernate and JPA App");
 
-        createTestData();
+            createTestData();
 
-        List<Campaign> retrievedCampaigns = campaignRepository.findAll();
-        logger.info("Campaigns retrieved: {}", retrievedCampaigns);
+            List<Campaign> retrievedCampaigns = campaignRepository.findAll();
+            logger.info("Campaigns retrieved: {}", retrievedCampaigns);
 
-        retrievedCampaigns = campaignRepository.findByNameOrDescriptionContaining("2");
-        logger.info("Campaigns retrieved: {}", retrievedCampaigns);
+            retrievedCampaigns = campaignRepository.findByNameOrDescriptionContaining("2");
+            logger.info("Campaigns retrieved: {}", retrievedCampaigns);
 
-        List<Task> retrievedTasks = taskRepository.findAndOrderByFields("status", TaskStatus.TO_DO, "name", true);
-        logger.info("Tasks retrieved: {}", retrievedTasks);
+            List<Task> retrievedTasks = taskRepository.findAndOrderByFields("status", TaskStatus.TO_DO, "name", true);
+            logger.info("Tasks retrieved: {}", retrievedTasks);
 
-        retrievedTasks = taskRepository.findByWorkerEmailImplicitJoin("john.doe@baeldung.com");
-        logger.info("Tasks retrieved: {}", retrievedTasks);
+            retrievedTasks = taskRepository.findByWorkerEmailImplicitJoin("john.doe@baeldung.com");
+            logger.info("Tasks retrieved: {}", retrievedTasks);
 
-        retrievedTasks = taskRepository.findByWorkerEmailExplicitJoin("john.doe@baeldung.com");
-        logger.info("Tasks retrieved: {}", retrievedTasks);
+            retrievedTasks = taskRepository.findByWorkerEmailExplicitJoin("john.doe@baeldung.com");
+            logger.info("Tasks retrieved: {}", retrievedTasks);
 
-        int numberOfTasksPutOnHold = taskRepository.holdTasksByCampaignId(1L);
-        logger.info("{} tasks put on hold", numberOfTasksPutOnHold);
+            int numberOfTasksPutOnHold = taskRepository.holdTasksByCampaignId(1L);
+            logger.info("{} tasks put on hold", numberOfTasksPutOnHold);
 
-        int numberOfCampaignsDeleted = campaignRepository.deleteCampaignsWithoutTasks();
-        logger.info("{} campaigns without any tasks deleted", numberOfCampaignsDeleted);
+            int numberOfCampaignsDeleted = campaignRepository.deleteCampaignsWithoutTasks();
+            logger.info("{} campaigns without any tasks deleted", numberOfCampaignsDeleted);
+        } finally {
+            JpaUtil.closeEntityManagerFactory();
+        }
     }
 
     static void createTestData() {

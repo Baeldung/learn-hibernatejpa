@@ -7,6 +7,8 @@ import com.baeldung.lhj.persistence.model.Task;
 import com.baeldung.lhj.persistence.model.TaskStatus;
 import com.baeldung.lhj.persistence.model.Worker;
 import com.baeldung.lhj.persistence.repository.TaskRepository;
+import com.baeldung.lhj.persistence.util.JpaUtil;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -15,7 +17,7 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Order;
 import jakarta.persistence.criteria.Root;
 
-public class DefaultTaskRepository extends BaseRepository implements TaskRepository {
+public class DefaultTaskRepository implements TaskRepository {
 
     public DefaultTaskRepository() {
         super();
@@ -23,108 +25,115 @@ public class DefaultTaskRepository extends BaseRepository implements TaskReposit
 
     @Override
     public Optional<Task> findById(Long id) {
-        EntityManager entityManager = getEntityManager();
-        Task retrievedTask = entityManager.find(Task.class, id);
-        return Optional.ofNullable(retrievedTask);
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            Task retrievedTask = entityManager.find(Task.class, id);
+            return Optional.ofNullable(retrievedTask);
+        }
     }
 
     @Override
     public Task save(Task task) {
-        EntityManager entityManager = getEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.persist(task);
-        entityManager.getTransaction().commit();
-        return task;
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            entityManager.getTransaction().begin();
+            entityManager.persist(task);
+            entityManager.getTransaction().commit();
+            return task;
+        }
     }
 
     @Override
     public List<Task> findAll() {
-        EntityManager entityManager = getEntityManager();
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
-        CriteriaQuery<Task> criteriaQuery = criteriaBuilder.createQuery(Task.class);
-        Root<Task> root = criteriaQuery.from(Task.class);
-        criteriaQuery.select(root);
+            CriteriaQuery<Task> criteriaQuery = criteriaBuilder.createQuery(Task.class);
+            Root<Task> root = criteriaQuery.from(Task.class);
+            criteriaQuery.select(root);
 
-        return entityManager
-            .createQuery(criteriaQuery)
-            .getResultList();
+            return entityManager
+                .createQuery(criteriaQuery)
+                .getResultList();
+        }
     }
 
     @Override
     public List<Task> findAndOrderByFields(String filterField, Object filterValue,
                                            String sortField, boolean sortAscending) {
-        EntityManager entityManager = getEntityManager();
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Task> criteriaQuery = criteriaBuilder.createQuery(Task.class);
-        Root<Task> root = criteriaQuery.from(Task.class);
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Task> criteriaQuery = criteriaBuilder.createQuery(Task.class);
+            Root<Task> root = criteriaQuery.from(Task.class);
 
-        Order order;
-        if (sortAscending) {
-            order = criteriaBuilder.asc(root.get(sortField));
-        } else {
-            order = criteriaBuilder.desc(root.get(sortField));
+            Order order;
+            if (sortAscending) {
+                order = criteriaBuilder.asc(root.get(sortField));
+            } else {
+                order = criteriaBuilder.desc(root.get(sortField));
+            }
+
+            criteriaQuery
+                .orderBy(order)
+                .select(root)
+                .where(criteriaBuilder.equal(root.get(filterField), filterValue));
+
+            return entityManager
+                .createQuery(criteriaQuery)
+                .getResultList();
         }
-
-        criteriaQuery
-            .orderBy(order)
-            .select(root)
-            .where(criteriaBuilder.equal(root.get(filterField), filterValue));
-
-        return entityManager
-            .createQuery(criteriaQuery)
-            .getResultList();
     }
 
     @Override
     public List<Task> findByWorkerEmailImplicitJoin(String email) {
-        EntityManager entityManager = getEntityManager();
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Task> criteriaQuery = criteriaBuilder.createQuery(Task.class);
-        Root<Task> root = criteriaQuery.from(Task.class);
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Task> criteriaQuery = criteriaBuilder.createQuery(Task.class);
+            Root<Task> root = criteriaQuery.from(Task.class);
 
-        criteriaQuery
-            .select(root)
-            .where(criteriaBuilder.equal(root.get("assignee").get("email"), email));
+            criteriaQuery
+                .select(root)
+                .where(criteriaBuilder.equal(root.get("assignee").get("email"), email));
 
-        return entityManager
-            .createQuery(criteriaQuery)
-            .getResultList();
+            return entityManager
+                .createQuery(criteriaQuery)
+                .getResultList();
+        }
     }
 
     @Override
     public List<Task> findByWorkerEmailExplicitJoin(String email) {
-        EntityManager entityManager = getEntityManager();
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Task> criteriaQuery = criteriaBuilder.createQuery(Task.class);
-        Root<Task> root = criteriaQuery.from(Task.class);
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Task> criteriaQuery = criteriaBuilder.createQuery(Task.class);
+            Root<Task> root = criteriaQuery.from(Task.class);
 
-        Join<Task, Worker> assigneeJoin = root.join("assignee");
-        criteriaQuery
-            .select(root)
-            .where(criteriaBuilder.equal(assigneeJoin.get("email"), email));
+            Join<Task, Worker> assigneeJoin = root.join("assignee");
+            criteriaQuery
+                .select(root)
+                .where(criteriaBuilder.equal(assigneeJoin.get("email"), email));
 
-        return entityManager
-            .createQuery(criteriaQuery)
-            .getResultList();
+            return entityManager
+                .createQuery(criteriaQuery)
+                .getResultList();
+        }
     }
 
     @Override
     public int holdTasksByCampaignId(Long campaignId) {
-        EntityManager entityManager = getEntityManager();
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaUpdate<Task> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Task.class);
-        Root<Task> root = criteriaUpdate.from(Task.class);
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaUpdate<Task> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Task.class);
+            Root<Task> root = criteriaUpdate.from(Task.class);
 
-        criteriaUpdate
-            .set(root.get("status"), TaskStatus.ON_HOLD)
-            .where(criteriaBuilder.equal(root.get("campaign").get("id"), campaignId));
+            criteriaUpdate
+                .set(root.get("status"), TaskStatus.ON_HOLD)
+                .where(criteriaBuilder.equal(root.get("campaign").get("id"), campaignId));
 
-        entityManager.getTransaction().begin();
-        int updatedCount = entityManager.createQuery(criteriaUpdate).executeUpdate();
-        entityManager.getTransaction().commit();
+            entityManager.getTransaction().begin();
+            int updatedCount = entityManager.createQuery(criteriaUpdate).executeUpdate();
+            entityManager.getTransaction().commit();
 
-        return updatedCount;
+            return updatedCount;
+        }
     }
 
 }
