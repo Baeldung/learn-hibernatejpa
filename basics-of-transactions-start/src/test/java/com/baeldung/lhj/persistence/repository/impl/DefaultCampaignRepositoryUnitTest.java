@@ -15,7 +15,7 @@ import com.baeldung.lhj.persistence.model.Campaign;
 import com.baeldung.lhj.persistence.repository.CampaignRepository;
 
 @ExtendWith(CloseResourcesExtension.class)
-public class DefaultCampaignRepositoryUnitTest {
+class DefaultCampaignRepositoryUnitTest {
     CampaignRepository campaignRepository = new DefaultCampaignRepository();
 
     @Test
