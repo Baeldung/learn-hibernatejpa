@@ -5,17 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDate;
 import java.util.List;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-
-import org.hibernate.SessionFactory;
 import org.hibernate.stat.Statistics;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+import com.baeldung.lhj.extension.CloseResourcesExtension;
 import com.baeldung.lhj.persistence.model.Campaign;
 import com.baeldung.lhj.persistence.model.Task;
 import com.baeldung.lhj.persistence.model.TaskStatus;
@@ -26,11 +23,13 @@ import com.baeldung.lhj.persistence.repository.WorkerRepository;
 import com.baeldung.lhj.persistence.repository.impl.DefaultCampaignRepository;
 import com.baeldung.lhj.persistence.repository.impl.DefaultTaskRepository;
 import com.baeldung.lhj.persistence.repository.impl.DefaultWorkerRepository;
+import com.baeldung.lhj.persistence.util.JpaUtil;
+
+import jakarta.persistence.EntityManager;
 
 @Disabled // enable Lazy fetch on Campaign entity
-public class LazyFetchUnitTest {
-
-    private EntityManagerFactory emf;
+@ExtendWith(CloseResourcesExtension.class)
+class LazyFetchUnitTest {
     private EntityManager em;
     private Statistics stats;
 
@@ -41,12 +40,7 @@ public class LazyFetchUnitTest {
 
     @BeforeEach
     void setup() {
-        emf = Persistence.createEntityManagerFactory("LHJ");
-        em = emf.createEntityManager();
-
-        stats = emf.unwrap(SessionFactory.class)
-            .getStatistics();
-        stats.clear();
+        em = JpaUtil.getEntityManager();
 
         campaignRepository = new DefaultCampaignRepository();
         taskRepository = new DefaultTaskRepository();
@@ -59,6 +53,9 @@ public class LazyFetchUnitTest {
         createCampaignAndTasks(10);
         em.getTransaction()
             .commit();
+
+        stats = JpaUtil.getStatistics();
+        stats.clear();
     }
 
     @AfterEach
@@ -75,7 +72,6 @@ public class LazyFetchUnitTest {
             .commit();
 
         em.close();
-        emf.close();
     }
 
     private void createCampaignAndTasks(int count) {
@@ -89,7 +85,7 @@ public class LazyFetchUnitTest {
     }
     
     @Test
-    public void whenAccessingTasksLazily_thenTwoSelectsExecute() {
+    void whenAccessingTasksLazily_thenTwoSelectsExecute() {
         // when
         Campaign campaign = em.find(Campaign.class, 1L); // first SELECT (campaign)
         campaign.getTasks().size(); // second SELECT (tasks)
@@ -99,7 +95,7 @@ public class LazyFetchUnitTest {
     }
 
     @Test
-    public void whenAccessingTasksLazily_thenNPlus1ProblemOccurs() {
+    void whenAccessingTasksLazily_thenNPlus1ProblemOccurs() {
         // when
         String selectQuery = "SELECT c FROM Campaign c";
 

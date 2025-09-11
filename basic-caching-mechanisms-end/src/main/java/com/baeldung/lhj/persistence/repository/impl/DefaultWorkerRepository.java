@@ -6,23 +6,24 @@ import jakarta.persistence.EntityManager;
 
 import com.baeldung.lhj.persistence.model.Worker;
 import com.baeldung.lhj.persistence.repository.WorkerRepository;
+import com.baeldung.lhj.persistence.util.JpaUtil;
 
-public class DefaultWorkerRepository extends BaseRepository implements WorkerRepository {
+public class DefaultWorkerRepository implements WorkerRepository {
 
     @Override
     public Optional<Worker> findById(Long id) {
-        EntityManager entityManager = getEntityManager();
-        return Optional.ofNullable(entityManager.find(Worker.class, id));
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            return Optional.ofNullable(entityManager.find(Worker.class, id));
+        }
     }
 
     @Override
     public Worker save(Worker worker) {
-        EntityManager entityManager = getEntityManager();
-        entityManager.getTransaction()
-            .begin();
-        entityManager.persist(worker);
-        entityManager.getTransaction()
-            .commit();
-        return worker;
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            entityManager.getTransaction().begin();
+            entityManager.persist(worker);
+            entityManager.getTransaction().commit();
+            return worker;
+        }
     }
 }

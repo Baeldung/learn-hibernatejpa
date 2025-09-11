@@ -5,11 +5,14 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+import com.baeldung.lhj.extension.CloseResourcesExtension;
 import com.baeldung.lhj.persistence.model.Campaign;
 import com.baeldung.lhj.persistence.repository.CampaignRepository;
 
-public class DefaultCampaignRepositoryUnitTest {
+@ExtendWith(CloseResourcesExtension.class)
+class DefaultCampaignRepositoryUnitTest {
     CampaignRepository campaignRepository = new DefaultCampaignRepository();
 
     @Test

@@ -3,14 +3,13 @@ package com.baeldung.lhj;
 import java.time.LocalDate;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 
-import org.hibernate.SessionFactory;
 import org.hibernate.stat.Statistics;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+import com.baeldung.lhj.extension.CloseResourcesExtension;
 import com.baeldung.lhj.persistence.model.Campaign;
 import com.baeldung.lhj.persistence.model.Task;
 import com.baeldung.lhj.persistence.model.TaskStatus;
@@ -21,10 +20,10 @@ import com.baeldung.lhj.persistence.repository.WorkerRepository;
 import com.baeldung.lhj.persistence.repository.impl.DefaultCampaignRepository;
 import com.baeldung.lhj.persistence.repository.impl.DefaultTaskRepository;
 import com.baeldung.lhj.persistence.repository.impl.DefaultWorkerRepository;
+import com.baeldung.lhj.persistence.util.JpaUtil;
 
-public class EagerFetchUnitTest {
-
-    private EntityManagerFactory emf;
+@ExtendWith(CloseResourcesExtension.class)
+class EagerFetchUnitTest {
     private EntityManager em;
     private Statistics stats;
 
@@ -35,11 +34,7 @@ public class EagerFetchUnitTest {
 
     @BeforeEach
     void setup() {
-        emf = Persistence.createEntityManagerFactory("LHJ");
-        em = emf.createEntityManager();
-        stats = emf.unwrap(SessionFactory.class)
-            .getStatistics();
-        stats.clear();
+        em = JpaUtil.getEntityManager();
 
         campaignRepository = new DefaultCampaignRepository();
         taskRepository = new DefaultTaskRepository();
@@ -55,6 +50,9 @@ public class EagerFetchUnitTest {
 
         em.getTransaction()
             .commit();
+
+        stats = JpaUtil.getStatistics();
+        stats.clear();
     }
 
     @AfterEach
@@ -71,7 +69,6 @@ public class EagerFetchUnitTest {
             .commit();
 
         em.close();
-        emf.close();
     }
 
     private void createCampaignAndTasks(int count) {

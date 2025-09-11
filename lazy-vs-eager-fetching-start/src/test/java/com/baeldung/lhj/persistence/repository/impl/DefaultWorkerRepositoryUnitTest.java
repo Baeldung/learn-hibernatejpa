@@ -1,15 +1,18 @@
 package com.baeldung.lhj.persistence.repository.impl;
 
+import com.baeldung.lhj.extension.CloseResourcesExtension;
 import com.baeldung.lhj.persistence.model.Worker;
 import com.baeldung.lhj.persistence.repository.WorkerRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-public class DefaultWorkerRepositoryUnitTest {
+@ExtendWith(CloseResourcesExtension.class)
+class DefaultWorkerRepositoryUnitTest {
     WorkerRepository workerRepository = new DefaultWorkerRepository();
 
     @Test
-    public void givenExistingWorker_whenFindById_thenWorkerRetrieved() {
+    void givenExistingWorker_whenFindById_thenWorkerRetrieved() {
         // given
         Worker existingWorker = new Worker("johnTest1@test.com", "John", "Doe");
         workerRepository.save(existingWorker);
@@ -22,7 +25,7 @@ public class DefaultWorkerRepositoryUnitTest {
     }
 
     @Test
-    public void givenExistingWorker_whenFindByNonExistingId_thenNoWorkerRetrieved() {
+    void givenExistingWorker_whenFindByNonExistingId_thenNoWorkerRetrieved() {
         // given
         Worker existingWorker = new Worker("johnTest2@test.com", "John", "Doe");
         workerRepository.save(existingWorker);

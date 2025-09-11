@@ -1,5 +1,6 @@
 package com.baeldung.lhj.persistence.repository.impl;
 
+import com.baeldung.lhj.extension.CloseResourcesExtension;
 import com.baeldung.lhj.persistence.model.Campaign;
 import com.baeldung.lhj.persistence.model.Task;
 import com.baeldung.lhj.persistence.model.TaskStatus;
@@ -9,17 +10,19 @@ import com.baeldung.lhj.persistence.repository.TaskRepository;
 import com.baeldung.lhj.persistence.repository.WorkerRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class DefaultTaskRepositoryUnitTest {
+@ExtendWith(CloseResourcesExtension.class)
+class DefaultTaskRepositoryUnitTest {
     CampaignRepository campaignRepository = new DefaultCampaignRepository();
     TaskRepository taskRepository = new DefaultTaskRepository();
     WorkerRepository workerRepository = new DefaultWorkerRepository();
 
     @Test
-    public void givenExistingTask_whenFindById_thenTaskRetrieved() {
+    void givenExistingTask_whenFindById_thenTaskRetrieved() {
         // given
         Campaign campaign = new Campaign("CTASK-1", "Campaign 1", "Campaign 1 Description");
         campaignRepository.save(campaign);
@@ -35,7 +38,7 @@ public class DefaultTaskRepositoryUnitTest {
     }
 
     @Test
-    public void givenExistingTask_whenFindByNonExistingId_thenNoTaskRetrieved() {
+    void givenExistingTask_whenFindByNonExistingId_thenNoTaskRetrieved() {
         // given
         Campaign campaign = new Campaign("CTASK-2", "Campaign 2", "Campaign 2 Description");
         campaignRepository.save(campaign);
@@ -51,7 +54,7 @@ public class DefaultTaskRepositoryUnitTest {
     }
 
     @Test
-    public void givenExistingTask_whenFindAllTasks_thenNonEmptyListRetrieved() {
+    void givenExistingTask_whenFindAllTasks_thenNonEmptyListRetrieved() {
         // given
         Campaign campaign = new Campaign("CTASK-3", "Campaign 3", "Campaign 3 Description");
         campaignRepository.save(campaign);
@@ -69,7 +72,7 @@ public class DefaultTaskRepositoryUnitTest {
     }
 
     @Test
-    public void givenExistingTasks_whenFindByNameContainingAndAssigneeId_thenNonEmptyListRetrieved() {
+    void givenExistingTasks_whenFindByNameContainingAndAssigneeId_thenNonEmptyListRetrieved() {
         // given
         Campaign campaign = new Campaign("CTASK-4", "Campaign 4", "Campaign 4 Description");
         campaignRepository.save(campaign);

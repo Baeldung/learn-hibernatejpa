@@ -1,5 +1,6 @@
 package com.baeldung.lhj.persistence.repository.impl;
 
+import com.baeldung.lhj.extension.CloseResourcesExtension;
 import com.baeldung.lhj.persistence.model.Worker;
 import com.baeldung.lhj.persistence.repository.WorkerRepository;
 
@@ -7,8 +8,10 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-public class DefaultWorkerRepositoryUnitTest {
+@ExtendWith(CloseResourcesExtension.class)
+class DefaultWorkerRepositoryUnitTest {
     WorkerRepository workerRepository = new DefaultWorkerRepository();
 
     @Test
