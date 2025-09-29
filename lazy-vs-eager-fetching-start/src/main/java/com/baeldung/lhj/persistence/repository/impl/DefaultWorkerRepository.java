@@ -6,12 +6,14 @@ import com.baeldung.lhj.persistence.util.JpaUtil;
 
 import jakarta.persistence.EntityManager;
 
+import java.util.Optional;
+
 public class DefaultWorkerRepository implements WorkerRepository {
 
     @Override
-    public Worker findById(Long id) {
+    public Optional<Worker> findById(Long id) {
         try (EntityManager entityManager = JpaUtil.getEntityManager()) {
-            return entityManager.find(Worker.class, id);
+            return Optional.ofNullable(entityManager.find(Worker.class, id));
         }
     }
 

@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.Optional;
+
 @ExtendWith(CloseResourcesExtension.class)
 class DefaultWorkerRepositoryUnitTest {
     WorkerRepository workerRepository = new DefaultWorkerRepository();
@@ -18,7 +20,7 @@ class DefaultWorkerRepositoryUnitTest {
         workerRepository.save(existingWorker);
 
         // when
-        Worker retrievedWorker = workerRepository.findById(existingWorker.getId());
+        Worker retrievedWorker = workerRepository.findById(existingWorker.getId()).get();
 
         // then
         Assertions.assertEquals(existingWorker, retrievedWorker);
@@ -31,10 +33,10 @@ class DefaultWorkerRepositoryUnitTest {
         workerRepository.save(existingWorker);
 
         // when
-        Worker retrievedWorker = workerRepository.findById(99L);
+        Optional<Worker> retrievedWorker = workerRepository.findById(99L);
 
         // then
-        Assertions.assertNull(retrievedWorker);
+        Assertions.assertTrue(retrievedWorker.isEmpty());
     }
 
 }

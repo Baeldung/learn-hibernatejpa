@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(CloseResourcesExtension.class)
 class DefaultCampaignRepositoryUnitTest {
@@ -20,7 +21,7 @@ class DefaultCampaignRepositoryUnitTest {
         campaignRepository.save(existingCampaign);
 
         // when
-        Campaign retrievedCampaign = campaignRepository.findById(existingCampaign.getId());
+        Campaign retrievedCampaign = campaignRepository.findById(existingCampaign.getId()).get();
 
         // then
         Assertions.assertEquals(existingCampaign, retrievedCampaign);
@@ -33,10 +34,10 @@ class DefaultCampaignRepositoryUnitTest {
         campaignRepository.save(existingCampaign);
 
         // when
-        Campaign retrievedCampaign = campaignRepository.findById(99L);
+        Optional<Campaign> retrievedCampaign = campaignRepository.findById(99L);
 
         // then
-        Assertions.assertNull(retrievedCampaign);
+        Assertions.assertTrue(retrievedCampaign.isEmpty());
     }
 
     @Test

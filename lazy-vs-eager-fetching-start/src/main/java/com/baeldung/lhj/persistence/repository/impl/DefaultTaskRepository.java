@@ -1,6 +1,7 @@
 package com.baeldung.lhj.persistence.repository.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -16,9 +17,9 @@ import com.baeldung.lhj.persistence.util.JpaUtil;
 public class DefaultTaskRepository implements TaskRepository {
 
     @Override
-    public Task findById(Long id) {
+    public Optional<Task> findById(Long id) {
         try (EntityManager entityManager = JpaUtil.getEntityManager()) {
-            return entityManager.find(Task.class, id);
+            return Optional.ofNullable(entityManager.find(Task.class, id));
         }
     }
 

@@ -45,7 +45,7 @@ public class LhjApp {
             logger.info("Saved new Task: {}", newTask);
 
             // find Task by Id
-            Task existingTask = taskRepository.findById(newTask.getId());
+            Task existingTask = taskRepository.findById(newTask.getId()).get();
             logger.info("Retrieved Task: {}", existingTask);
             logger.info("Retrieved Task campaign: {}", existingTask.getCampaign());
             logger.info("Retrieved Task assignee: {}", existingTask.getAssignee());

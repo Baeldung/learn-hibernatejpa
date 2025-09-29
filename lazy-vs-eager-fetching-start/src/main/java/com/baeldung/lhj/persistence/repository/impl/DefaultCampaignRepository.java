@@ -1,6 +1,7 @@
 package com.baeldung.lhj.persistence.repository.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.baeldung.lhj.persistence.model.Campaign;
 import com.baeldung.lhj.persistence.repository.CampaignRepository;
@@ -15,9 +16,9 @@ import jakarta.persistence.criteria.Root;
 public class DefaultCampaignRepository implements CampaignRepository {
 
     @Override
-    public Campaign findById(Long id) {
+    public Optional<Campaign> findById(Long id) {
         try (EntityManager entityManager = JpaUtil.getEntityManager()) {
-            return entityManager.find(Campaign.class, id);
+            return Optional.ofNullable(entityManager.find(Campaign.class, id));
         }
     }
 

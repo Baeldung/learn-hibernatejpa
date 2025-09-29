@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(CloseResourcesExtension.class)
 class DefaultTaskRepositoryUnitTest {
@@ -31,7 +32,7 @@ class DefaultTaskRepositoryUnitTest {
         taskRepository.save(existingTask);
 
         // when
-        Task retrievedTask = taskRepository.findById(existingTask.getId());
+        Task retrievedTask = taskRepository.findById(existingTask.getId()).get();
 
         // then
         Assertions.assertEquals(existingTask, retrievedTask);
@@ -47,10 +48,10 @@ class DefaultTaskRepositoryUnitTest {
         taskRepository.save(existingTask);
 
         // when
-        Task retrievedTask = taskRepository.findById(99L);
+        Optional<Task> retrievedTask = taskRepository.findById(99L);
 
         // then
-        Assertions.assertNull(retrievedTask);
+        Assertions.assertTrue(retrievedTask.isEmpty());
     }
 
     @Test
