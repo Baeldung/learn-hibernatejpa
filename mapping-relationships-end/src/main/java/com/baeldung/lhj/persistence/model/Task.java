@@ -36,11 +36,7 @@ public class Task {
     private Worker assignee;
 
     @ManyToMany
-    @JoinTable(
-        name = "Task_Label",
-        joinColumns = @JoinColumn(name = "task_id"),
-        inverseJoinColumns = @JoinColumn(name = "label_id")
-    )
+    @JoinTable(name = "Task_Label", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "label_id"))
     private Set<Label> labels = new HashSet<>();
 
     public Task() {

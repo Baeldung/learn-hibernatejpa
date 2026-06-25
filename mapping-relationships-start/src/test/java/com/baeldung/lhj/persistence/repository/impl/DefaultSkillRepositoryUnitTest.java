@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 public class DefaultSkillRepositoryUnitTest {
+
     SkillRepository skillRepository = new DefaultSkillRepository();
 
     @Test

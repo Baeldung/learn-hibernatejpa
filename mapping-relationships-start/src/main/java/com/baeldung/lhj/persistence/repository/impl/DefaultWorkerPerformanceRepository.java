@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class DefaultWorkerPerformanceRepository implements WorkerPerformanceRepository {
+
     private Set<WorkerPerformance> workerPerformances;
 
     public DefaultWorkerPerformanceRepository() {

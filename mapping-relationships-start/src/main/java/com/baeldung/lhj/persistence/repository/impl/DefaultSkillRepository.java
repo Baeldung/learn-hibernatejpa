@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class DefaultSkillRepository implements SkillRepository {
+
     private Set<Skill> skills;
 
     public DefaultSkillRepository() {

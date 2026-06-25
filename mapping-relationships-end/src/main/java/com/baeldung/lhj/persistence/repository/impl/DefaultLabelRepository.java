@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class DefaultLabelRepository implements LabelRepository {
+
     private Set<Label> labels;
 
     public DefaultLabelRepository() {

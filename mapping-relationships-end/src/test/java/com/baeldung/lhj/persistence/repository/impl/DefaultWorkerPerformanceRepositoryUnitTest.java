@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 public class DefaultWorkerPerformanceRepositoryUnitTest {
+
     WorkerPerformanceRepository workerPerformanceRepository = new DefaultWorkerPerformanceRepository();
 
     @Test

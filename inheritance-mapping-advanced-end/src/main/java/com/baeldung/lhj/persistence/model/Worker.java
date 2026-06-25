@@ -35,13 +35,7 @@ public abstract class Worker {
     // Comment the below block to disable the table per class strategy
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "worker_id_generator")
-    @TableGenerator(
-        name = "worker_id_generator",
-        table = "id_generator",
-        pkColumnName = "generator_name",
-        pkColumnValue = "worker_id",
-        valueColumnName = "next_generator_value"
-    )
+    @TableGenerator(name = "worker_id_generator", table = "id_generator", pkColumnName = "generator_name", pkColumnValue = "worker_id", valueColumnName = "next_generator_value")
     @Column(name = "id")
     private Long id;
 

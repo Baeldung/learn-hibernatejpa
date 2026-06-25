@@ -9,19 +9,20 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class DefaultWorkerSkillRepository implements WorkerSkillRepository {
+
     private Set<WorkerSkill> workerSkills;
-    
+
     public DefaultWorkerSkillRepository() {
         this.workerSkills = new HashSet<>();
     }
-    
+
     @Override
     public Set<WorkerSkill> findByWorkerId(Long workerId) {
         return workerSkills.stream()
             .filter(ws -> ws.getWorker().getId().equals(workerId))
             .collect(Collectors.toSet());
     }
-    
+
     @Override
     public Set<WorkerSkill> findBySkillId(Long skillId) {
         return workerSkills.stream()
