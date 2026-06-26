@@ -47,7 +47,7 @@ class JPQLUnitTest {
         workerRepository.save(idleWorker);
        
         Task activeTask = new Task("Active Task", "Active Task Description", LocalDate.now(), newCampaign, TaskStatus.IN_PROGRESS, activeWorker);
-        Task idleTask = new Task("Idle Task", "Idle Task Description", LocalDate.now(), newCampaign, TaskStatus.TO_DO, idleWorker);
+        Task idleTask = new Task("Idle Task", "Idle Task Description", LocalDate.now(), newCampaign2, TaskStatus.TO_DO, idleWorker);
         taskRepository.save(activeTask);
         taskRepository.save(idleTask);
     }    

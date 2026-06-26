@@ -39,7 +39,14 @@ public class DefaultCampaignRepository implements CampaignRepository {
 
     @Override
     public Optional<Campaign> findByCodeAndName(String code, String name) {
-        return Optional.empty();
+        try (EntityManager entityManager = JpaUtil.getEntityManager()) {
+            Campaign result = entityManager
+                .createQuery("SELECT c FROM Campaign c WHERE c.code = ?1 AND c.name = ?2", Campaign.class)
+                .setParameter(1, code)
+                .setParameter(2, name)
+                .getSingleResult();
+            return Optional.ofNullable(result);
+        }
     }
 
     @Override
