@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 class DefaultTaskRepositoryUnitTest {
+
     CampaignRepository campaignRepository = new DefaultCampaignRepository();
     TaskRepository taskRepository = new DefaultTaskRepository();
 

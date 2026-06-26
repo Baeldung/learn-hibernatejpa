@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CampaignRepository {
+
     Optional<Campaign> findById(Long id);
 
     Campaign save(Campaign campaign);

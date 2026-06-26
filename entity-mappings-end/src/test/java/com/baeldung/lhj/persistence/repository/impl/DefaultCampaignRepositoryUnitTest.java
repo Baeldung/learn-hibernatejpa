@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 class DefaultCampaignRepositoryUnitTest {
+
     CampaignRepository campaignRepository = new DefaultCampaignRepository();
 
     @Test

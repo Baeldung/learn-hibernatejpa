@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 public class DefaultWorkerRepositoryUnitTest {
+
     WorkerRepository workerRepository = new DefaultWorkerRepository();
 
     @Test
