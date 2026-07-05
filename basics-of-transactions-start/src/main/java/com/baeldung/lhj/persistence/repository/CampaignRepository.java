@@ -7,6 +7,7 @@ import com.baeldung.lhj.persistence.model.Campaign;
 import com.baeldung.lhj.persistence.model.Task;
 
 public interface CampaignRepository {
+
     Optional<Campaign> findById(Long id);
 
     Campaign save(Campaign campaign);

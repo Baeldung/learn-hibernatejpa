@@ -30,6 +30,7 @@ import jakarta.persistence.EntityManager;
 @Disabled // enable Lazy fetch on Campaign entity
 @ExtendWith(CloseResourcesExtension.class)
 class LazyFetchUnitTest {
+
     private EntityManager em;
     private Statistics stats;
 
@@ -83,7 +84,7 @@ class LazyFetchUnitTest {
             taskRepository.save(newTask);
         }
     }
-    
+
     @Test
     void whenAccessingTasksLazily_thenTwoSelectsExecute() {
         // when

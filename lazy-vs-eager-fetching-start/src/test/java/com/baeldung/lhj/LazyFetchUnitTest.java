@@ -24,6 +24,7 @@ import com.baeldung.lhj.persistence.util.JpaUtil;
 
 @ExtendWith(CloseResourcesExtension.class)
 class LazyFetchUnitTest {
+
     private EntityManager em;
     private Statistics stats;
 

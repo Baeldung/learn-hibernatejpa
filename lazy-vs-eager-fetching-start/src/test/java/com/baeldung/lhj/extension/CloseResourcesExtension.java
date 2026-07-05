@@ -16,6 +16,7 @@ public class CloseResourcesExtension implements AfterAllCallback {
     }
 
     private static class CloseResources implements ExtensionContext.Store.CloseableResource {
+
         @Override
         public void close() {
             System.out.println("Closing resources...");

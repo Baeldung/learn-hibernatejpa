@@ -16,6 +16,7 @@ import com.baeldung.lhj.persistence.repository.CampaignRepository;
 
 @ExtendWith(CloseResourcesExtension.class)
 class DefaultCampaignRepositoryUnitTest {
+
     CampaignRepository campaignRepository = new DefaultCampaignRepository();
 
     @Test
@@ -66,8 +67,7 @@ class DefaultCampaignRepositoryUnitTest {
         List<Task> tasks = List.of(
             new Task("Task 1", "Task 1 Description", LocalDate.now(), null, TaskStatus.TO_DO, null),
             new Task("Task 2", "Task 2 Description", LocalDate.now(), null, TaskStatus.TO_DO, null),
-            new Task("Task 3", "Task 3 Description", LocalDate.now(), null, TaskStatus.TO_DO, null)
-        );
+            new Task("Task 3", "Task 3 Description", LocalDate.now(), null, TaskStatus.TO_DO, null));
 
         // when
         campaignRepository.createCampaignWithTasks(campaign, tasks);
@@ -77,8 +77,7 @@ class DefaultCampaignRepositoryUnitTest {
         Assertions.assertTrue(retrievedCampaign.isPresent());
         Assertions.assertEquals(tasks.size(), retrievedCampaign.get().getTasks().size());
         tasks.forEach(
-            task -> Assertions.assertEquals(campaign, task.getCampaign())
-        );
+            task -> Assertions.assertEquals(campaign, task.getCampaign()));
     }
 
 }

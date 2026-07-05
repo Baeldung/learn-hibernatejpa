@@ -14,6 +14,7 @@ import org.hibernate.annotations.NaturalId;
 
 @Entity
 public class Task {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -116,8 +117,8 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task [id=" + id + ", name=" + name + ", description=" + description + ", dueDate=" + dueDate + ", status=" + status + ", campaign=" + campaign
-                + ", assignee=" + assignee + "]";
+        return "Task [id=" + id + ", name=" + name + ", description=" + description + ", dueDate=" + dueDate + ", status=" + status + ", campaign=" + campaign +
+            ", assignee=" + assignee + "]";
     }
 
     @Override
@@ -127,8 +128,10 @@ public class Task {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof Task other)) return false;
+        if (this == obj)
+            return true;
+        if (!(obj instanceof Task other))
+            return false;
 
         return Objects.equals(getUuid(), other.getUuid());
     }

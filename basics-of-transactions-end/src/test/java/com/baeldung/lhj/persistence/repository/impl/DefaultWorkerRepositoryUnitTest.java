@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(CloseResourcesExtension.class)
 class DefaultWorkerRepositoryUnitTest {
+
     WorkerRepository workerRepository = new DefaultWorkerRepository();
 
     @Test

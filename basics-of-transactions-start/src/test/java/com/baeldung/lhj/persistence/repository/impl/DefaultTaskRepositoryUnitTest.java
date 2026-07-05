@@ -19,6 +19,7 @@ import com.baeldung.lhj.persistence.repository.WorkerRepository;
 
 @ExtendWith(CloseResourcesExtension.class)
 class DefaultTaskRepositoryUnitTest {
+
     CampaignRepository campaignRepository = new DefaultCampaignRepository();
     TaskRepository taskRepository = new DefaultTaskRepository();
     WorkerRepository workerRepository = new DefaultWorkerRepository();

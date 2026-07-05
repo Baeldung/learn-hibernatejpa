@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @ExtendWith(CloseResourcesExtension.class)
 class DefaultWorkerRepositoryUnitTest {
+
     WorkerRepository workerRepository = new DefaultWorkerRepository();
 
     @Test

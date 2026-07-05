@@ -30,6 +30,7 @@ import jakarta.persistence.EntityManager;
 //@Disabled // disable when enable Lazy fetch on Campaign entity
 @ExtendWith(CloseResourcesExtension.class)
 class EagerFetchUnitTest {
+
     private EntityManager em;
     private Statistics stats;
 
@@ -86,7 +87,7 @@ class EagerFetchUnitTest {
             taskRepository.save(task);
         }
     }
-    
+
     @Test
     void whenMappingIsEager_thenSingleSelectExecutes() {
         // because tasks() is EAGER, this call fetches campaign + tasks in one round trip

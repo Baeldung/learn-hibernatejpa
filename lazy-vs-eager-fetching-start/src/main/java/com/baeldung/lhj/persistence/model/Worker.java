@@ -14,6 +14,7 @@ import org.hibernate.annotations.NaturalId;
 
 @Entity
 public class Worker {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -85,8 +86,10 @@ public class Worker {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof Worker other)) return false;
+        if (this == obj)
+            return true;
+        if (!(obj instanceof Worker other))
+            return false;
 
         return Objects.equals(getEmail(), other.getEmail());
     }

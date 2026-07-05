@@ -89,8 +89,10 @@ public class Campaign {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof Campaign other)) return false;
+        if (this == obj)
+            return true;
+        if (!(obj instanceof Campaign other))
+            return false;
 
         return Objects.equals(getCode(), other.getCode());
     }

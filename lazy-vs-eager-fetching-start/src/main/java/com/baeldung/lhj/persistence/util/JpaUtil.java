@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.stat.Statistics;
 
 public class JpaUtil {
+
     private static final EntityManagerFactory emf;
 
     static {
