@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @ExtendWith(CloseResourcesExtension.class)
 class DefaultTaskRepositoryUnitTest {
+
     CampaignRepository campaignRepository = new DefaultCampaignRepository();
     TaskRepository taskRepository = new DefaultTaskRepository();
 
