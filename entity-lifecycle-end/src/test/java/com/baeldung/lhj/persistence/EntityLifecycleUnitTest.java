@@ -87,12 +87,13 @@ class EntityLifecycleUnitTest {
 
             Worker detachedJohn = new Worker("john.doe5@gmail.com", "John", "Doe");
             detachedJohn.setId(john.getId());
-            assertFalse(entityManager.contains(detachedJohn), "a detached entity is managed by the entity manager");
+            assertFalse(entityManager.contains(detachedJohn), "a detached entity is not managed by the entity manager");
 
-            entityManager.merge(detachedJohn);
+            Worker mergedJohn = entityManager.merge(detachedJohn);
 
-            assertTrue(entityManager.contains(john), "a merged entity is managed by the entity manager");
-            assertEquals(john, detachedJohn, "the merged entity should be equal to the original one");
+            assertTrue(entityManager.contains(mergedJohn), "a merged entity is managed by the entity manager");
+            assertFalse(entityManager.contains(detachedJohn), "the original detached entity remains detached");
+            assertEquals(mergedJohn, detachedJohn, "the merged entity should be equal to the original one");
         }
     }
 
